@@ -11,6 +11,7 @@ namespace ST10258941_PROG6221
             bool exit = false;
             while (!exit)
             {
+                // Display menu options
                 Console.WriteLine("\nSelect an option:");
                 Console.WriteLine("1. Enter recipe details");
                 Console.WriteLine("2. Display recipe");
@@ -20,6 +21,7 @@ namespace ST10258941_PROG6221
                 Console.WriteLine("0. Exit");
                 Console.Write("Choice: ");
 
+                // Read user input and parse it as an integer
                 int choice;
                 if (!int.TryParse(Console.ReadLine(), out choice))
                 {
@@ -27,6 +29,7 @@ namespace ST10258941_PROG6221
                     continue;
                 }
 
+                // Perform action based on user's choice
                 switch (choice)
                 {
                     case 1:
@@ -54,6 +57,7 @@ namespace ST10258941_PROG6221
             }
         }
 
+        // Method to enter recipe details
         static void EnterRecipeDetails()
         {
             Console.Write("\nEnter the number of ingredients: ");
@@ -96,6 +100,7 @@ namespace ST10258941_PROG6221
             }
         }
 
+        // Method to scale the recipe
         static void ScaleRecipe()
         {
             if (recipe.ingredientCount == 0)
@@ -116,6 +121,7 @@ namespace ST10258941_PROG6221
             Console.WriteLine($"Recipe has been scaled by a factor of {scaleFactor}.");
         }
 
+        // Method to clear the recipe
         static void ResetRecipe()
         {
             Console.Write("Are you sure you want to reset the recipe? (y/n): ");
@@ -131,6 +137,7 @@ namespace ST10258941_PROG6221
             }
         }
 
+        // Method to reset the recipe
         static void ClearRecipe()
         {
             Console.Write("Type 'Clear' to confirm and clear the recipe: ");
