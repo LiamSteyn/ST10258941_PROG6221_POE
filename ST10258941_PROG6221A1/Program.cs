@@ -23,6 +23,7 @@ namespace ST10258941_PROG6221
 
                 // Read user input and parse it as an integer
                 int choice;
+                // Main loop to keep the program running until the user chooses to exit
                 if (!int.TryParse(Console.ReadLine(), out choice))
                 {
                     Console.WriteLine("Invalid choice. Please enter a number.");
@@ -72,25 +73,27 @@ namespace ST10258941_PROG6221
             {
                 Console.Write("Enter ingredient name: ");
                 string name = Console.ReadLine();
-                double quantity;
                 Console.Write("Enter quantity: ");
-                if (!double.TryParse(Console.ReadLine(), out quantity))
-                {
-                    Console.WriteLine("Invalid input. Please enter a valid number for the quantity.");
-                    return;
-                }
-
+                double quantity = double.Parse(Console.ReadLine());
                 Console.Write("Enter unit of measurement: ");
                 string unit = Console.ReadLine();
                 recipe.AddIngredient(name, quantity, unit);
             }
 
             int numSteps;
-            if (!int.TryParse(Console.ReadLine(), out numSteps))
+            bool validNumSteps = false;
+            do
             {
-                Console.WriteLine("Invalid input. Please enter a valid number for the number of steps.");
-                return;
-            }
+                Console.Write("Enter the number of steps: ");
+                if (!int.TryParse(Console.ReadLine(), out numSteps))
+                {
+                    Console.WriteLine("Invalid input. Please enter a valid number for the number of steps.");
+                }
+                else
+                {
+                    validNumSteps = true;
+                }
+            } while (!validNumSteps);
 
             for (int i = 0; i < numSteps; i++)
             {
