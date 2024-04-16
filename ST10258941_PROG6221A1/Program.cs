@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ST10258941_PROG6221
+﻿namespace ST10258941_PROG6221
 {
     class Program
     {
