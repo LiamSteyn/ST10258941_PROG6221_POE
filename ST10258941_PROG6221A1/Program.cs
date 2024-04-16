@@ -49,8 +49,7 @@ namespace ST10258941_PROG6221
                         ScaleRecipe();  // Call method to scale the recipe
                         break;
                     case 4:
-                        recipe.ResetQuantities();   // Call method to reset ingredient quantities
-                        Console.WriteLine("Recipe quantities have been reset.");
+                        ResetRecipe();   // Call method to reset ingredient quantities 
                         break;
                     case 5:
                         ClearRecipe();   // Call method to clear the recipe
@@ -119,6 +118,22 @@ namespace ST10258941_PROG6221
             else
             {
                 Console.WriteLine("Clear cancelled.");
+            }
+        }
+
+        // Method to reset the recipe
+        static void ResetRecipe()
+        {
+            Console.Write("Are you sure you want to reset the recipe? (y/n): ");
+            string confirmation = Console.ReadLine();
+            if (confirmation.Equals("y", StringComparison.OrdinalIgnoreCase))
+            {
+                recipe.ResetQuantities();
+                Console.WriteLine("Recipe quantities have been reset.");
+            }
+            else
+            {
+                Console.WriteLine("Reset cancelled.");
             }
         }
     }
