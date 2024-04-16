@@ -68,7 +68,13 @@ namespace ST10258941_PROG6221
         static void EnterRecipeDetails()
         {
             Console.Write("\nEnter the number of ingredients: ");
-            int numIngredients = int.Parse(Console.ReadLine());
+            int numIngredients;
+            if (!int.TryParse(Console.ReadLine(), out numIngredients))
+            {
+                Console.WriteLine("Invalid input. Please enter a valid number for the number of ingredients.");
+                return;
+            }
+
             for (int i = 0; i < numIngredients; i++)
             {
                 Console.Write("Enter ingredient name: ");
@@ -80,8 +86,21 @@ namespace ST10258941_PROG6221
                 recipe.AddIngredient(name, quantity, unit);
             }
 
-            Console.Write("Enter the number of steps: ");
-            int numSteps = int.Parse(Console.ReadLine());
+            int numSteps;
+            bool validNumSteps = false;
+            do
+            {
+                Console.Write("Enter the number of steps: ");
+                if (!int.TryParse(Console.ReadLine(), out numSteps))
+                {
+                    Console.WriteLine("Invalid input. Please enter a valid number for the number of steps.");
+                }
+                else
+                {
+                    validNumSteps = true;
+                }
+            } while (!validNumSteps);
+
             for (int i = 0; i < numSteps; i++)
             {
                 Console.Write($"Enter step {i + 1} description: ");
@@ -89,6 +108,7 @@ namespace ST10258941_PROG6221
                 recipe.AddStep(step);
             }
         }
+
 
         // Method to scale the recipe
         static void ScaleRecipe()
