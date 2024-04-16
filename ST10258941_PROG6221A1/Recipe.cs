@@ -79,10 +79,11 @@ namespace ST10258941_PROG6221
                 steps = new string[10];
                 originalIngredients = new Ingredient[10];
 
-                ingredientCount = 0;
-                stepCount = 0;
-            }
-
+                ingredientCount = 0;    // Reset ingredient count
+                stepCount = 0;  // Reset step count
+        }
+            
+            // Displays the recipe's ingredients and steps
             public void DisplayRecipe()
             {
                 if (ingredientCount == 0)
