@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ST10258941_PROG6221A1
+namespace ST10258941_PROG6221
 {
     /// Represents a cooking recipe, including ingredients and preparation steps.
     public class Recipe

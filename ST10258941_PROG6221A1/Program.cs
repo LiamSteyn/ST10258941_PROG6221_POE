@@ -1,4 +1,4 @@
-﻿namespace ST10258941_PROG6221A1
+﻿namespace ST10258941_PROG6221
 {
     /// Main program class that handles user interaction for creating and managing recipes.
     class Program

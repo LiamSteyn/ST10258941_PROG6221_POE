@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ST10258941_PROG6221A1
+namespace ST10258941_PROG6221
 {
     /// Represents a single ingredient used in a recipe, including its quantity and measurement unit.
     public class Ingredient
