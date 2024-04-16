@@ -1,11 +1,17 @@
-﻿namespace ST10258941_PROG6221
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ST10258941_PROG6221
 {
-    /// Main program class that handles user interaction for creating and managing recipes.
+    using System;
+
     class Program
     {
         static Recipe recipe = new Recipe();
 
-        /// Entry point of the program. Manages the user interface for recipe management.
         static void Main(string[] args)
         {
             bool exit = false;
@@ -20,7 +26,13 @@
                 Console.WriteLine("0. Exit");
                 Console.Write("Choice: ");
 
-                int choice = int.Parse(Console.ReadLine());
+                int choice;
+                if (!int.TryParse(Console.ReadLine(), out choice))
+                {
+                    Console.WriteLine("Invalid choice. Please enter a number.");
+                    continue;
+                }
+
                 switch (choice)
                 {
                     case 1:
@@ -50,10 +62,9 @@
             }
         }
 
-        /// Captures user input for ingredients and steps, adding them to the current recipe.
         static void EnterRecipeDetails()
         {
-            Console.Write("Enter the number of ingredients: ");
+            Console.Write("\nEnter the number of ingredients: ");
             int numIngredients = int.Parse(Console.ReadLine());
             for (int i = 0; i < numIngredients; i++)
             {
@@ -76,14 +87,18 @@
             }
         }
 
-        /// Scales the recipe by a user-specified factor.
         static void ScaleRecipe()
         {
-            Console.Write("Enter scale factor (0.5, 2, 3): ");
+            if (recipe.ingredientCount == 0)
+            {
+                Console.WriteLine("No recipe available. Please enter a recipe first.");
+                return;
+            }
+
+            Console.Write("\nEnter scale factor (0.5, 2, 3): ");
             double scaleFactor = double.Parse(Console.ReadLine());
             recipe.ScaleRecipe(scaleFactor);
             Console.WriteLine($"Recipe has been scaled by a factor of {scaleFactor}.");
         }
     }
-
 }

@@ -6,80 +6,94 @@ using System.Threading.Tasks;
 
 namespace ST10258941_PROG6221
 {
-    /// Represents a cooking recipe, including ingredients and preparation steps.
-    public class Recipe
-    {
-        // Stores the list of ingredients used in the recipe.
-        public List<Ingredient> Ingredients { get; private set; }
-
-        // Stores the sequence of steps necessary to prepare the recipe.
-        public List<string> Steps { get; private set; }
-
-        // Keeps a copy of the original ingredients for resetting purposes.
-        private List<Ingredient> originalIngredients;
-
-        /// Initializes a new instance of the Recipe class.
-        public Recipe()
+        public class Recipe
         {
-            Ingredients = new List<Ingredient>();
-            Steps = new List<string>();
-            originalIngredients = new List<Ingredient>();
-        }
+            private Ingredient[] ingredients;
+            private string[] steps;
+            private Ingredient[] originalIngredients;
 
-        /// Adds an ingredient to the recipe.
-        public void AddIngredient(string name, double quantity, string unit)
-        {
-            var ingredient = new Ingredient(name, quantity, unit);
-            Ingredients.Add(ingredient);
-            originalIngredients.Add(new Ingredient(name, quantity, unit));  // Store the original for reset
-        }
+            public int ingredientCount;
+            private int stepCount;
 
-        /// Adds a cooking step to the recipe.
-        public void AddStep(string step)
-        {
-            Steps.Add(step);
-        }
+            public Ingredient[] Ingredients => ingredients;
 
-        /// Scales the quantities of all ingredients in the recipe by a given factor.
-        public void ScaleRecipe(double factor)
-        {
-            foreach (var ingredient in Ingredients)
+            public Recipe()
             {
-                ingredient.Quantity *= factor;
+                ingredients = new Ingredient[10]; // Initial capacity
+                steps = new string[10]; // Initial capacity
+                originalIngredients = new Ingredient[10]; // Initial capacity
+
+                ingredientCount = 0;
+                stepCount = 0;
+            }
+
+            public void AddIngredient(string name, double quantity, string unit)
+            {
+                if (ingredientCount == ingredients.Length)
+                {
+                    Array.Resize(ref ingredients, ingredients.Length * 2); // Double the array size if full
+                    Array.Resize(ref originalIngredients, originalIngredients.Length * 2); // Double the array size if full
+                }
+
+                ingredients[ingredientCount++] = new Ingredient(name, quantity, unit);
+                originalIngredients[ingredientCount - 1] = new Ingredient(name, quantity, unit);
+            }
+
+            public void AddStep(string step)
+            {
+                if (stepCount == steps.Length)
+                {
+                    Array.Resize(ref steps, steps.Length * 2); // Double the array size if full
+                }
+
+                steps[stepCount++] = step;
+            }
+
+            public void ScaleRecipe(double factor)
+            {
+                for (int i = 0; i < ingredientCount; i++)
+                {
+                    ingredients[i].Quantity *= factor;
+                }
+            }
+
+            public void ResetQuantities()
+            {
+                for (int i = 0; i < ingredientCount; i++)
+                {
+                    ingredients[i] = originalIngredients[i];
+                }
+            }
+
+            public void ClearRecipe()
+            {
+                ingredients = new Ingredient[10];
+                steps = new string[10];
+                originalIngredients = new Ingredient[10];
+
+                ingredientCount = 0;
+                stepCount = 0;
+            }
+
+            public void DisplayRecipe()
+            {
+                if (ingredientCount == 0)
+                {
+                    Console.WriteLine("No recipe available. Please enter a recipe first.");
+                    return;
+                }
+
+                Console.WriteLine("\nIngredients:");
+                for (int i = 0; i < ingredientCount; i++)
+                {
+                    Console.WriteLine($"{ingredients[i].Quantity} {ingredients[i].Unit} of {ingredients[i].Name}");
+                }
+
+                Console.WriteLine("\nSteps:");
+                for (int i = 0; i < stepCount; i++)
+                {
+                    Console.WriteLine($"{i + 1}. {steps[i]}");
+                }
             }
         }
-
-        /// Resets the ingredient quantities to their original values.
-        public void ResetQuantities()
-        {
-            Ingredients.Clear();
-            Ingredients.AddRange(new List<Ingredient>(originalIngredients));
-        }
-
-        /// Clears all ingredients and steps from the recipe, effectively resetting it.
-        public void ClearRecipe()
-        {
-            Ingredients.Clear();
-            Steps.Clear();
-            originalIngredients.Clear();
-        }
-
-        /// Displays the recipe, listing all ingredients and steps neatly.
-        public void DisplayRecipe()
-        {
-            Console.WriteLine("Ingredients:");
-            foreach (var ingredient in Ingredients)
-            {
-                Console.WriteLine($"{ingredient.Quantity} {ingredient.Unit} of {ingredient.Name}");
-            }
-            Console.WriteLine("\nSteps:");
-            int stepCount = 1;
-            foreach (var step in Steps)
-            {
-                Console.WriteLine($"{stepCount++}. {step}");
-            }
-        }
-    }
-
-
 }
