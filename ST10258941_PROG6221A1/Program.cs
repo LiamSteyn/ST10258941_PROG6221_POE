@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ST10258941_PROG6221
 {
-    using System;
-
     class Program
     {
         static Recipe recipe = new Recipe();
@@ -15,10 +9,8 @@ namespace ST10258941_PROG6221
         static void Main(string[] args)
         {
             bool exit = false;
-            // Main loop to keep the program running until the user chooses to exit
             while (!exit)
             {
-                // Display menu options
                 Console.WriteLine("\nSelect an option:");
                 Console.WriteLine("1. Enter recipe details");
                 Console.WriteLine("2. Display recipe");
@@ -28,7 +20,6 @@ namespace ST10258941_PROG6221
                 Console.WriteLine("0. Exit");
                 Console.Write("Choice: ");
 
-                // Read user input and parse it as an integer
                 int choice;
                 if (!int.TryParse(Console.ReadLine(), out choice))
                 {
@@ -36,26 +27,25 @@ namespace ST10258941_PROG6221
                     continue;
                 }
 
-                // Perform action based on user's choice
                 switch (choice)
                 {
                     case 1:
-                        EnterRecipeDetails();   // Call method to enter recipe details
+                        EnterRecipeDetails();
                         break;
                     case 2:
-                        recipe.DisplayRecipe(); // Call method to display recipe
+                        recipe.DisplayRecipe();
                         break;
                     case 3:
-                        ScaleRecipe();  // Call method to scale the recipe
+                        ScaleRecipe();
                         break;
                     case 4:
-                        ResetRecipe();   // Call method to reset ingredient quantities 
+                        ResetRecipe();
                         break;
                     case 5:
-                        ClearRecipe();   // Call method to clear the recipe
+                        ClearRecipe();
                         break;
                     case 0:
-                        exit = true;    // Set exit flag to true to exit the loop
+                        exit = true;
                         break;
                     default:
                         Console.WriteLine("Invalid option, try again.");
@@ -64,7 +54,6 @@ namespace ST10258941_PROG6221
             }
         }
 
-        // Method to enter recipe details
         static void EnterRecipeDetails()
         {
             Console.Write("\nEnter the number of ingredients: ");
@@ -79,27 +68,25 @@ namespace ST10258941_PROG6221
             {
                 Console.Write("Enter ingredient name: ");
                 string name = Console.ReadLine();
+                double quantity;
                 Console.Write("Enter quantity: ");
-                double quantity = double.Parse(Console.ReadLine());
+                if (!double.TryParse(Console.ReadLine(), out quantity))
+                {
+                    Console.WriteLine("Invalid input. Please enter a valid number for the quantity.");
+                    return;
+                }
+
                 Console.Write("Enter unit of measurement: ");
                 string unit = Console.ReadLine();
                 recipe.AddIngredient(name, quantity, unit);
             }
 
             int numSteps;
-            bool validNumSteps = false;
-            do
+            if (!int.TryParse(Console.ReadLine(), out numSteps))
             {
-                Console.Write("Enter the number of steps: ");
-                if (!int.TryParse(Console.ReadLine(), out numSteps))
-                {
-                    Console.WriteLine("Invalid input. Please enter a valid number for the number of steps.");
-                }
-                else
-                {
-                    validNumSteps = true;
-                }
-            } while (!validNumSteps);
+                Console.WriteLine("Invalid input. Please enter a valid number for the number of steps.");
+                return;
+            }
 
             for (int i = 0; i < numSteps; i++)
             {
@@ -109,8 +96,6 @@ namespace ST10258941_PROG6221
             }
         }
 
-
-        // Method to scale the recipe
         static void ScaleRecipe()
         {
             if (recipe.ingredientCount == 0)
@@ -119,29 +104,18 @@ namespace ST10258941_PROG6221
                 return;
             }
 
+            double scaleFactor;
             Console.Write("\nEnter scale factor (0.5, 2, 3): ");
-            double scaleFactor = double.Parse(Console.ReadLine());
+            if (!double.TryParse(Console.ReadLine(), out scaleFactor))
+            {
+                Console.WriteLine("Invalid input. Please enter a valid number for the scale factor.");
+                return;
+            }
+
             recipe.ScaleRecipe(scaleFactor);
             Console.WriteLine($"Recipe has been scaled by a factor of {scaleFactor}.");
         }
 
-        // Method to clear the recipe
-        static void ClearRecipe()
-        {
-            Console.Write("Type 'Clear' to confirm and clear the recipe: ");
-            string confirmation = Console.ReadLine();
-            if (confirmation.Equals("Clear", StringComparison.OrdinalIgnoreCase))
-            {
-                recipe.ClearRecipe();
-                Console.WriteLine("Recipe cleared.");
-            }
-            else
-            {
-                Console.WriteLine("Clear cancelled.");
-            }
-        }
-
-        // Method to reset the recipe
         static void ResetRecipe()
         {
             Console.Write("Are you sure you want to reset the recipe? (y/n): ");
@@ -154,6 +128,21 @@ namespace ST10258941_PROG6221
             else
             {
                 Console.WriteLine("Reset cancelled.");
+            }
+        }
+
+        static void ClearRecipe()
+        {
+            Console.Write("Type 'Clear' to confirm and clear the recipe: ");
+            string confirmation = Console.ReadLine();
+            if (confirmation.Equals("Clear", StringComparison.OrdinalIgnoreCase))
+            {
+                recipe.ClearRecipe();
+                Console.WriteLine("Recipe cleared.");
+            }
+            else
+            {
+                Console.WriteLine("Clear cancelled.");
             }
         }
     }
