@@ -1,41 +1,40 @@
-﻿namespace ST10258941_PROG6221
+﻿using System;
+using System.Collections.Generic;
+
+namespace ST10258941_PROG6221
 {
     class Program
     {
-        static Recipe recipe = new Recipe();
+        static List<Recipe> recipes = new List<Recipe>();
 
         static void Main(string[] args)
         {
             bool exit = false;
             while (!exit)
             {
-                // Display menu options
                 Console.WriteLine("\nSelect an option:");
-                Console.WriteLine("1. Enter recipe details");
-                Console.WriteLine("2. Display recipe");
-                Console.WriteLine("3. Scale recipe");
-                Console.WriteLine("4. Reset recipe");
-                Console.WriteLine("5. Clear recipe");
+                Console.WriteLine("1. Enter a new recipe");
+                Console.WriteLine("2. Display a recipe");
+                Console.WriteLine("3. Scale a recipe");
+                Console.WriteLine("4. Reset a recipe");
+                Console.WriteLine("5. Clear a recipe");
                 Console.WriteLine("0. Exit");
                 Console.Write("Choice: ");
 
-                // Read user input and parse it as an integer
                 int choice;
-                // Main loop to keep the program running until the user chooses to exit
                 if (!int.TryParse(Console.ReadLine(), out choice))
                 {
                     Console.WriteLine("Invalid choice. Please enter a number.");
                     continue;
                 }
 
-                // Perform action based on user's choice
                 switch (choice)
                 {
                     case 1:
                         EnterRecipeDetails();
                         break;
                     case 2:
-                        recipe.DisplayRecipe();
+                        DisplayRecipes();
                         break;
                     case 3:
                         ScaleRecipe();
@@ -56,12 +55,15 @@
             }
         }
 
-        // Method to enter recipe details
         static void EnterRecipeDetails()
         {
-            Console.Write("\nEnter the number of ingredients: ");
+            Console.Write("\nEnter the name of the recipe: ");
+            string recipeName = Console.ReadLine();
+            Recipe recipe = new Recipe(recipeName);
+
+            Console.Write("Enter the number of ingredients: ");
             int numIngredients;
-            if (!int.TryParse(Console.ReadLine(), out numIngredients))
+            if (!int.TryParse(Console.ReadLine(), out numIngredients) || numIngredients <= 0)
             {
                 Console.WriteLine("Invalid input. Please enter a valid number for the number of ingredients.");
                 return;
@@ -72,26 +74,32 @@
                 Console.Write("Enter ingredient name: ");
                 string name = Console.ReadLine();
                 Console.Write("Enter quantity: ");
-                double quantity = double.Parse(Console.ReadLine());
+                double quantity;
+                if (!double.TryParse(Console.ReadLine(), out quantity) || quantity <= 0)
+                {
+                    Console.WriteLine("Invalid input. Please enter a valid number for the quantity.");
+                    return;
+                }
                 Console.Write("Enter unit of measurement: ");
                 string unit = Console.ReadLine();
-                recipe.AddIngredient(name, quantity, unit);
+                Console.Write("Enter number of calories: ");
+                double calories;
+                if (!double.TryParse(Console.ReadLine(), out calories) || calories < 0)
+                {
+                    Console.WriteLine("Invalid input. Please enter a valid number for the calories.");
+                    return;
+                }
+                string foodGroup = SelectFoodGroup();
+                recipe.AddIngredient(name, quantity, unit, calories, foodGroup);
             }
 
+            Console.Write("Enter the number of steps: ");
             int numSteps;
-            bool validNumSteps = false;
-            do
+            if (!int.TryParse(Console.ReadLine(), out numSteps) || numSteps <= 0)
             {
-                Console.Write("Enter the number of steps: ");
-                if (!int.TryParse(Console.ReadLine(), out numSteps))
-                {
-                    Console.WriteLine("Invalid input. Please enter a valid number for the number of steps.");
-                }
-                else
-                {
-                    validNumSteps = true;
-                }
-            } while (!validNumSteps);
+                Console.WriteLine("Invalid input. Please enter a valid number for the number of steps.");
+                return;
+            }
 
             for (int i = 0; i < numSteps; i++)
             {
@@ -99,19 +107,95 @@
                 string step = Console.ReadLine();
                 recipe.AddStep(step);
             }
+
+            recipes.Add(recipe);
         }
 
-        // Method to scale the recipe
-        static void ScaleRecipe()
+        static string SelectFoodGroup()
         {
-            if (recipe.ingredientCount == 0)
+            Console.WriteLine("\nSelect a food group:");
+            Console.WriteLine("1. Vegetables");
+            Console.WriteLine("2. Fruits");
+            Console.WriteLine("3. Grains, Beans, and Nuts");
+            Console.WriteLine("4. Dairy");
+            Console.WriteLine("5. Meat, Poultry, and Fish");
+            Console.WriteLine("6. Fats and Oils");
+            Console.WriteLine("7. Sweets");
+            Console.Write("Enter the number corresponding to the food group: ");
+
+            int choice;
+            if (!int.TryParse(Console.ReadLine(), out choice) || choice < 1 || choice > 7)
             {
-                Console.WriteLine("No recipe available. Please enter a recipe first.");
+                Console.WriteLine("Invalid input. Please select a valid food group.");
+                return SelectFoodGroup();
+            }
+
+            switch (choice)
+            {
+                case 1:
+                    return "Vegetables";
+                case 2:
+                    return "Fruits";
+                case 3:
+                    return "Grains, Beans, and Nuts";
+                case 4:
+                    return "Dairy";
+                case 5:
+                    return "Meat, Poultry, and Fish";
+                case 6:
+                    return "Fats and Oils";
+                case 7:
+                    return "Sweets";
+                default:
+                    return "";
+            }
+        }
+
+        static void DisplayRecipes()
+        {
+            if (recipes.Count == 0)
+            {
+                Console.WriteLine("No recipes available.");
                 return;
             }
 
+            recipes.Sort((r1, r2) => r1.Name.CompareTo(r2.Name));
+            Console.WriteLine("\nRecipes:");
+            for (int i = 0; i < recipes.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {recipes[i].Name}");
+            }
+
+            Console.Write("Select a recipe to display: ");
+            int choice;
+            if (!int.TryParse(Console.ReadLine(), out choice) || choice < 1 || choice > recipes.Count)
+            {
+                Console.WriteLine("Invalid choice.");
+                return;
+            }
+
+            recipes[choice - 1].DisplayRecipe();
+        }
+
+        static void ScaleRecipe()
+        {
+            if (recipes.Count == 0)
+            {
+                Console.WriteLine("No recipes available.");
+                return;
+            }
+
+            Console.Write("Select a recipe to scale: ");
+            int choice;
+            if (!int.TryParse(Console.ReadLine(), out choice) || choice < 1 || choice > recipes.Count)
+            {
+                Console.WriteLine("Invalid choice.");
+                return;
+            }
+
+            Recipe recipe = recipes[choice - 1];
+            Console.Write("Enter scale factor (e.g., 0.5, 2, 3): ");
             double scaleFactor;
-            Console.Write("\nEnter scale factor (0.5, 2, 3): ");
             if (!double.TryParse(Console.ReadLine(), out scaleFactor))
             {
                 Console.WriteLine("Invalid input. Please enter a valid number for the scale factor.");
@@ -119,18 +203,32 @@
             }
 
             recipe.ScaleRecipe(scaleFactor);
-            Console.WriteLine($"Recipe has been scaled by a factor of {scaleFactor}.");
+            Console.WriteLine($"Recipe '{recipe.Name}' has been scaled by a factor of {scaleFactor}.");
         }
 
-        // Method to clear the recipe
         static void ResetRecipe()
         {
+            if (recipes.Count == 0)
+            {
+                Console.WriteLine("No recipes available.");
+                return;
+            }
+
+            Console.Write("Select a recipe to reset: ");
+            int choice;
+            if (!int.TryParse(Console.ReadLine(), out choice) || choice < 1 || choice > recipes.Count)
+            {
+                Console.WriteLine("Invalid choice.");
+                return;
+            }
+
+            Recipe recipe = recipes[choice - 1];
             Console.Write("Are you sure you want to reset the recipe? (y/n): ");
             string confirmation = Console.ReadLine();
             if (confirmation.Equals("y", StringComparison.OrdinalIgnoreCase))
             {
                 recipe.ResetQuantities();
-                Console.WriteLine("Recipe quantities have been reset.");
+                Console.WriteLine($"Recipe '{recipe.Name}' quantities have been reset.");
             }
             else
             {
@@ -138,15 +236,29 @@
             }
         }
 
-        // Method to reset the recipe
         static void ClearRecipe()
         {
+            if (recipes.Count == 0)
+            {
+                Console.WriteLine("No recipes available.");
+                return;
+            }
+
+            Console.Write("Select a recipe to clear: ");
+            int choice;
+            if (!int.TryParse(Console.ReadLine(), out choice) || choice < 1 || choice > recipes.Count)
+            {
+                Console.WriteLine("Invalid choice.");
+                return;
+            }
+
+            Recipe recipe = recipes[choice - 1];
             Console.Write("Type 'Clear' to confirm and clear the recipe: ");
             string confirmation = Console.ReadLine();
             if (confirmation.Equals("Clear", StringComparison.OrdinalIgnoreCase))
             {
                 recipe.ClearRecipe();
-                Console.WriteLine("Recipe cleared.");
+                Console.WriteLine($"Recipe '{recipe.Name}' cleared.");
             }
             else
             {

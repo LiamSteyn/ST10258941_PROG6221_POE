@@ -1,102 +1,83 @@
-﻿namespace ST10258941_PROG6221
+﻿using System;
+using System.Collections.Generic;
+
+namespace ST10258941_PROG6221
 {
-        public class Recipe
+    public class Recipe
+    {
+        public string Name { get; set; }
+        private List<Ingredient> ingredients;
+        private List<string> steps;
+
+        public delegate void CalorieNotificationHandler(string message);
+        public event CalorieNotificationHandler CalorieNotification;
+
+        public Recipe(string name)
         {
-            private Ingredient[] ingredients;
-            private string[] steps;
-            private Ingredient[] originalIngredients;
-            public int ingredientCount;
-            private int stepCount;
-          
-            // Constructor to initialize arrays and counts
-            public Recipe()
-            {
-                ingredients = new Ingredient[10]; // Initial capacity
-                steps = new string[10]; // Initial capacity
-                originalIngredients = new Ingredient[10]; // Initial capacity
-
-                ingredientCount = 0; // Initialize ingredient count
-                stepCount = 0; // Initialize step count
+            Name = name;
+            ingredients = new List<Ingredient>();
+            steps = new List<string>();
         }
+
+        public void AddIngredient(string name, double quantity, string unit, double calories, string foodGroup)
+        {
+            ingredients.Add(new Ingredient(name, quantity, unit, calories, foodGroup));
+        }
+
+        public void AddStep(string step)
+        {
+            steps.Add(step);
+        }
+
+        public void ScaleRecipe(double factor)
+        {
+            foreach (var ingredient in ingredients)
+            {
+                ingredient.Quantity *= factor;
+            }
+        }
+
+        public void ResetQuantities()
+        {
             
-            // Adds an ingredient to the recipe
-            public void AddIngredient(string name, double quantity, string unit)
-            {
-                // Double the array size if full
-                if (ingredientCount == ingredients.Length)
-                {
-                    Array.Resize(ref ingredients, ingredients.Length * 2); // Double the array size if full
-                    Array.Resize(ref originalIngredients, originalIngredients.Length * 2); // Double the array size if full
-                }
-
-                // Add new ingredient
-                ingredients[ingredientCount++] = new Ingredient(name, quantity, unit);
-                originalIngredients[ingredientCount - 1] = new Ingredient(name, quantity, unit);
-            }
-
-            // Adds a step to the recipe
-            public void AddStep(string step)
-            {
-                // Double the array size if full
-                if (stepCount == steps.Length)
-                {
-                    Array.Resize(ref steps, steps.Length * 2); // Double the array size if full
-                }
-
-                // Add new step
-                steps[stepCount++] = step;
-            }
-
-            // Scales the quantities of ingredients in the recipe
-            public void ScaleRecipe(double factor)
-            {
-                // Multiply each ingredient's quantity by the scaling factor
-                for (int i = 0; i < ingredientCount; i++)
-                {
-                    ingredients[i].Quantity *= factor;
-                }
-            }
-
-            // Resets ingredient quantities to their original values
-            public void ResetQuantities()
-            {
-                for (int i = 0; i < ingredientCount; i++)
-                {
-                    ingredients[i] = originalIngredients[i];
-                }
-            }
-
-            // Clears the recipe by resetting arrays and counts
-            public void ClearRecipe()
-            {
-                ingredients = new Ingredient[10];
-                steps = new string[10];
-                originalIngredients = new Ingredient[10];
-
-                ingredientCount = 0;    // Reset ingredient count
-                stepCount = 0;  // Reset step count
         }
-            
-            // Displays the recipe's ingredients and steps
-            public void DisplayRecipe()
+
+        public void ClearRecipe()
+        {
+            ingredients.Clear();
+            steps.Clear();
+        }
+
+        public void DisplayRecipe()
+        {
+            Console.WriteLine($"\nRecipe: {Name}");
+            Console.WriteLine("Ingredients:");
+            foreach (var ingredient in ingredients)
             {
-                if (ingredientCount == 0)
-                {
-                    Console.WriteLine("No recipe available. Please enter a recipe first.");
-                    return;
-                }
+                Console.WriteLine($"{ingredient.Quantity} {ingredient.Unit} of {ingredient.Name} ({ingredient.Calories} calories, {ingredient.FoodGroup})");
+            }
+            Console.WriteLine("Steps:");
+            for (int i = 0; i < steps.Count; i++)
+            {
+                Console.WriteLine($"{i + 1}. {steps[i]}");
+            }
 
-                Console.WriteLine("\nIngredients:");
-                for (int i = 0; i < ingredientCount; i++)
-                {
-                    Console.WriteLine($"{ingredients[i].Quantity} {ingredients[i].Unit} of {ingredients[i].Name}");
-                }
-
-                Console.WriteLine("\nSteps:");
-                for (int i = 0; i < stepCount; i++)
-                {
-                    Console.WriteLine($"{i + 1}. {steps[i]}");
-                }
+            double totalCalories = CalculateTotalCalories();
+            Console.WriteLine($"Total Calories: {totalCalories}");
+            if (totalCalories > 300)
+            {
+                CalorieNotification?.Invoke($"Warning: Total calories exceed 300 for recipe '{Name}'!");
             }
         }
+
+        public double CalculateTotalCalories()
+        {
+            double total = 0;
+            foreach (var ingredient in ingredients)
+            {
+                total += ingredient.Calories;
+            }
+            return total;
+        }
+    }
 }
