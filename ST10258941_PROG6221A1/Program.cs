@@ -3,15 +3,28 @@ using System.Collections.Generic;
 
 namespace ST10258941_PROG6221
 {
+    /// <summary>
+    /// Represents the main program for managing recipes.
+    /// </summary>
     class Program
     {
+        /// <summary>
+        /// List of recipes in the application.
+        /// </summary>
         static List<Recipe> recipes = new List<Recipe>();
 
+        /// <summary>
+        /// Main entry point of the program.
+        /// </summary>
+        /// <param name="args">Command-line arguments.</param>
         static void Main(string[] args)
         {
             bool exit = false;
             while (!exit)
             {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("\nRecipe Application");
+                Console.ResetColor();
                 Console.WriteLine("\nSelect an option:");
                 Console.WriteLine("1. Enter a new recipe");
                 Console.WriteLine("2. Display a recipe");
@@ -24,7 +37,9 @@ namespace ST10258941_PROG6221
                 int choice;
                 if (!int.TryParse(Console.ReadLine(), out choice))
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Invalid choice. Please enter a number.");
+                    Console.ResetColor();
                     continue;
                 }
 
@@ -49,12 +64,17 @@ namespace ST10258941_PROG6221
                         exit = true;
                         break;
                     default:
+                        Console.ForegroundColor = ConsoleColor.Red;
                         Console.WriteLine("Invalid option, try again.");
+                        Console.ResetColor();
                         break;
                 }
             }
         }
 
+        /// <summary>
+        /// Allows the user to enter details for a new recipe.
+        /// </summary>
         static void EnterRecipeDetails()
         {
             Console.Write("\nEnter the name of the recipe: ");
@@ -65,7 +85,9 @@ namespace ST10258941_PROG6221
             int numIngredients;
             if (!int.TryParse(Console.ReadLine(), out numIngredients) || numIngredients <= 0)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Invalid input. Please enter a valid number for the number of ingredients.");
+                Console.ResetColor();
                 return;
             }
 
@@ -77,7 +99,9 @@ namespace ST10258941_PROG6221
                 double quantity;
                 if (!double.TryParse(Console.ReadLine(), out quantity) || quantity <= 0)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Invalid input. Please enter a valid number for the quantity.");
+                    Console.ResetColor();
                     return;
                 }
                 Console.Write("Enter unit of measurement: ");
@@ -86,18 +110,31 @@ namespace ST10258941_PROG6221
                 double calories;
                 if (!double.TryParse(Console.ReadLine(), out calories) || calories < 0)
                 {
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("Invalid input. Please enter a valid number for the calories.");
+                    Console.ResetColor();
                     return;
                 }
+                
                 string foodGroup = SelectFoodGroup();
                 recipe.AddIngredient(name, quantity, unit, calories, foodGroup);
+
+                double totalCalories = recipe.CalculateTotalCalories();
+                if (totalCalories > 300)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine($"Warning: Total calories exceed 300 after adding {name}! Current total calories: {totalCalories}");
+                    Console.ResetColor();
+                }
             }
 
             Console.Write("Enter the number of steps: ");
             int numSteps;
             if (!int.TryParse(Console.ReadLine(), out numSteps) || numSteps <= 0)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Invalid input. Please enter a valid number for the number of steps.");
+                Console.ResetColor();
                 return;
             }
 
@@ -111,9 +148,15 @@ namespace ST10258941_PROG6221
             recipes.Add(recipe);
         }
 
+        /// <summary>
+        /// Displays a list of food groups and prompts the user to select one.
+        /// </summary>
+        /// <returns>The selected food group as a string.</returns>
         static string SelectFoodGroup()
         {
+            Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("\nSelect a food group:");
+            Console.ResetColor();
             Console.WriteLine("1. Vegetables");
             Console.WriteLine("2. Fruits");
             Console.WriteLine("3. Grains, Beans, and Nuts");
@@ -126,7 +169,9 @@ namespace ST10258941_PROG6221
             int choice;
             if (!int.TryParse(Console.ReadLine(), out choice) || choice < 1 || choice > 7)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Invalid input. Please select a valid food group.");
+                Console.ResetColor();
                 return SelectFoodGroup();
             }
 
@@ -151,6 +196,9 @@ namespace ST10258941_PROG6221
             }
         }
 
+        /// <summary>
+        /// Displays the list of recipes and prompts the user to select one to display its details.
+        /// </summary>
         static void DisplayRecipes()
         {
             if (recipes.Count == 0)
@@ -170,18 +218,25 @@ namespace ST10258941_PROG6221
             int choice;
             if (!int.TryParse(Console.ReadLine(), out choice) || choice < 1 || choice > recipes.Count)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Invalid choice.");
+                Console.ResetColor();
                 return;
             }
 
             recipes[choice - 1].DisplayRecipe();
         }
 
+        /// <summary>
+        /// Allows the user to scale a recipe by a specified factor.
+        /// </summary>
         static void ScaleRecipe()
         {
             if (recipes.Count == 0)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("No recipes available.");
+                Console.ResetColor();
                 return;
             }
 
@@ -189,7 +244,9 @@ namespace ST10258941_PROG6221
             int choice;
             if (!int.TryParse(Console.ReadLine(), out choice) || choice < 1 || choice > recipes.Count)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Invalid choice.");
+                Console.ResetColor();
                 return;
             }
 
@@ -198,7 +255,9 @@ namespace ST10258941_PROG6221
             double scaleFactor;
             if (!double.TryParse(Console.ReadLine(), out scaleFactor))
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Invalid input. Please enter a valid number for the scale factor.");
+                Console.ResetColor();
                 return;
             }
 
@@ -206,6 +265,9 @@ namespace ST10258941_PROG6221
             Console.WriteLine($"Recipe '{recipe.Name}' has been scaled by a factor of {scaleFactor}.");
         }
 
+        /// <summary>
+        /// Resets the quantities of ingredients in a recipe to their original values.
+        /// </summary>
         static void ResetRecipe()
         {
             if (recipes.Count == 0)
@@ -218,7 +280,9 @@ namespace ST10258941_PROG6221
             int choice;
             if (!int.TryParse(Console.ReadLine(), out choice) || choice < 1 || choice > recipes.Count)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Invalid choice.");
+                Console.ResetColor();
                 return;
             }
 
@@ -236,6 +300,9 @@ namespace ST10258941_PROG6221
             }
         }
 
+        /// <summary>
+        /// Clears all ingredients and steps from a recipe.
+        /// </summary>
         static void ClearRecipe()
         {
             if (recipes.Count == 0)
@@ -248,7 +315,9 @@ namespace ST10258941_PROG6221
             int choice;
             if (!int.TryParse(Console.ReadLine(), out choice) || choice < 1 || choice > recipes.Count)
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Invalid choice.");
+                Console.ResetColor();
                 return;
             }
 
