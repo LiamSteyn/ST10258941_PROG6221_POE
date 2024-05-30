@@ -27,6 +27,11 @@
     Clear a recipe (option 5)
     Exit the application (option 0)
 
+# Lecturer Update
+
+ Comments on previous version were unprofessional so they were all updated to provide better details within the code. 
+ Colour texts were added to make certain console outputs stand out to the user and give the user a better UI experience.
+
 # Repository
  The source code for this application is available at:
  https://github.com/LiamSteyn/ST10258941_PROG6221_POE
