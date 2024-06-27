@@ -1,0 +1,41 @@
+﻿<Window x:Class="WpfApp2.AddRecipeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Add Recipe" Height="612" Width="460">
+    <Grid Margin="10">
+        <StackPanel>
+            <!-- Recipe Name -->
+            <TextBlock Text="Recipe Name:" FontWeight="Bold"/>
+            <TextBox x:Name="RecipeNameTextBox" Width="436"/>
+
+            <!-- Ingredient Inputs -->
+            <TextBlock Text="Ingredient Name:" FontWeight="Bold" Margin="0,10,0,0"/>
+            <TextBox Name="IngredientNameTextBox" Width="436"/>
+            <TextBlock Text="Quantity:" FontWeight="Bold"/>
+            <TextBox Name="QuantityTextBox" Width="434"/>
+            <TextBlock Text="Unit:" FontWeight="Bold"/>
+            <TextBox Name="UnitTextBox" Width="436"/>
+            <TextBlock Text="Calories:" FontWeight="Bold"/>
+            <TextBox Name="CaloriesTextBox" Width="436"/>
+            <TextBlock Text="Food Group:" FontWeight="Bold"/>
+            <TextBox Name="FoodGroupTextBox" Width="437"/>
+            <Button Content="Add Ingredient" Click="AddIngredient_Click" Width="200" Height="29" Margin="10"/>
+            <TextBlock x:Name="StatusTextBlock" Foreground="Green" FontWeight="Bold"/>
+            <TextBlock Text="Enter Step:" FontWeight="Bold"/>
+
+            <!-- Status Message -->
+
+            <!-- Steps Input -->
+            <TextBox x:Name="StepTextBox" Width="436"/>
+            <Button Content="Add Step" Click="AddStep_Click" Width="200" Margin="10"/>
+
+            <!-- Steps List -->
+            <TextBlock Text="Steps:" FontWeight="Bold" Margin="0,10,0,0"/>
+            <TextBox Name="StepsTextBox" Width="436" Height="100" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True"/>
+
+            <!-- Actions -->
+            <Button Content="Add Recipe" Click="AddRecipe_Click" Width="200" Margin="0,10,0,10"/>
+            <Button Content="Cancel" Click="Cancel_Click" Width="200"/>
+        </StackPanel>
+    </Grid>
+</Window>
