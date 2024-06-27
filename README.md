@@ -1,37 +1,64 @@
 # ST10258941_PROG6221
 
-# Recipe Management Console Application
- This is a console-based recipe management application written in C#. It allows users to enter, display, scale, reset, and clear recipes. The application provides a simple interface for managing recipes and their ingredients.
+# Recipe Management Application
+
+# Overview
+This WPF application allows users to manage recipes by adding new recipes, displaying existing recipes, and performing various operations on them, such as scaling ingredients and resetting recipes.
 
 # Features
- Enter a new recipe: Users can enter a new recipe by providing its name, ingredients, and steps.
- Display a recipe: Users can display a recipe, including its ingredients and steps.
- Scale a recipe: Users can scale a recipe by a specified factor, adjusting ingredient quantities and calories accordingly.
- Reset a recipe: Users can reset a recipe, restoring original ingredient quantities.
- Clear a recipe: Users can clear a recipe, removing all ingredients and steps.
+
+Add Recipe: Users can add new recipes with a name, description, ingredients, and steps.
+Display Recipes: Recipes are displayed alphabetically with their names and number of steps.
+Tools Page: Provides functionalities to scale recipe ingredients, reset ingredients, and delete recipes.
+
+# Updates from Console Application
+
+Initial Features Developed in Console App:
+Recipe CRUD Operations: Implemented basic functionality for adding, displaying, updating, and deleting recipes via console input/output.
+Sorting and Filtering: Allowed sorting recipes alphabetically and displaying specific recipes based on user input.
+Data Persistence: Used file handling (text files) to store recipe data persistently.
+
+Transition to WPF Application:
+Migration to WPF: Refactored the application to use WPF for a more interactive and visually appealing user interface.
+MVVM Pattern Implementation: Adopted the MVVM (Model-View-ViewModel) architectural pattern for improved separation of concerns and testability.
+Enhanced User Experience: Introduced features such as popup windows for recipe details, tools page for additional functionalities, and improved data binding for seamless UI updates.
+
+# Technologies Used
+
+C#: Backend logic and data management.
+WPF (Windows Presentation Foundation): User interface design.
+MVVM (Model-View-ViewModel): Architecture for separation of concerns.
+LINQ: Sorting recipes alphabetically.
+Visual Studio: IDE for development and debugging.
 
 # Getting Started
- To get started with the application, follow these steps:
- 
- 1. Clone this repository to your local machine.
- 2. Open the solution in Visual Studio.
- 3. Build and run the application.
+
+Prerequisites:
+Visual Studio (or any compatible IDE with WPF support)
+.NET Framework
+
+Installation:
+Clone the repository:
+https://github.com/LiamSteyn/ST10258941_PROG6221_POE
+
+Open the solution in Visual Studio.
+
+Build and run the application.
 
 # Usage
- 1. Run the application.
- 2. Select an option from the menu:
-    Enter a new recipe (option 1)
-    Display a recipe (option 2)
-    Scale a recipe (option 3)
-    Reset a recipe (option 4)
-    Clear a recipe (option 5)
-    Exit the application (option 0)
 
-# Lecturer Update
+Adding a Recipe:
+Click on the "Add Recipe" button.
+Fill in the details (name, description, ingredients, steps) in the popup window.
+Click "Save" to add the recipe.
 
- Comments on previous version were unprofessional so they were all updated to provide better details within the code. 
- Colour texts were added to make certain console outputs stand out to the user and give the user a better UI experience.
+Displaying Recipes:
+Click on the "Display Recipes" button.
+Recipes are displayed in alphabetical order with their names.
 
-# Repository
- The source code for this application is available at:
- https://github.com/LiamSteyn/ST10258941_PROG6221_POE
+Tools Page:
+Click on the "Tools" button in the main window to access the tools page.
+Scale ingredients: Adjust quantities of ingredients proportionally.
+Reset ingredients: Reset ingredient quantities to default values.
+Delete recipe: Remove a recipe from the list.
+
