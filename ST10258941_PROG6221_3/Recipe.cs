@@ -22,6 +22,8 @@ namespace ST10258941_PROG6221_3
             Ingredients.Add(new Ingredient(name, quantity, unit, calories, foodGroup));
         }
 
+
+
         public void AddStep(string step)
         {
             Steps.Add(step);
@@ -38,7 +40,16 @@ namespace ST10258941_PROG6221_3
         public void DisplayRecipe()
         {
             Console.WriteLine($"Recipe Name: {Name}");
-            // Display ingredients, steps, etc.
+            Console.WriteLine("Ingredients:");
+            foreach (var ingredient in Ingredients)
+            {
+                Console.WriteLine($"{ingredient.Name}: {ingredient.Quantity} {ingredient.Unit} ({ingredient.Calories} calories)");
+            }
+            Console.WriteLine("\nSteps:");
+            foreach (var step in Steps)
+            {
+                Console.WriteLine(step);
+            }
         }
 
         public void ResetQuantities()
