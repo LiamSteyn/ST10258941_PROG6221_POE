@@ -2,23 +2,24 @@
 using System.Collections.Generic;
 using System.Windows;
 using ST10258941_PROG6221_3;
-
 namespace WpfApp2
 {
     public partial class AddRecipeWindow : Window
     {
-        private List<Ingredient> ingredients;
-        private List<string> steps;
-        private List<Recipe> recipes;
+        private List<Ingredient> ingredients; // List to store ingredients for the recipe
+        private List<string> steps; // List to store steps of the recipe
+        private List<Recipe> recipes; // List of all recipes, passed from outside
 
+        // Constructor for the AddRecipeWindow class
         public AddRecipeWindow(List<Recipe> recipes)
         {
-            InitializeComponent();
-            ingredients = new List<Ingredient>();
-            steps = new List<string>();
-            this.recipes = recipes ?? new List<Recipe>(); // Ensure recipes is not null
+            InitializeComponent(); // Initialize the window components defined in XAML
+            ingredients = new List<Ingredient>(); // Initialize the ingredients list
+            steps = new List<string>(); // Initialize the steps list
+            this.recipes = recipes ?? new List<Recipe>(); // Initialize recipes list, ensuring it's not null
         }
 
+        // Event handler for adding ingredients to the recipe
         private void AddIngredient_Click(object sender, RoutedEventArgs e)
         {
             // Validate ingredient inputs
@@ -61,19 +62,17 @@ namespace WpfApp2
 
             // Update status message
             StatusTextBlock.Text = $"Ingredient '{newIngredient.Name}' added successfully!";
-
-            
-            
         }
 
+        // Event handler for adding a step to the recipe
         private void AddStep_Click(object sender, RoutedEventArgs e)
         {
-            // Add step to list
+            // Add step to list if the step text box is not empty
             if (!string.IsNullOrWhiteSpace(StepTextBox.Text))
             {
                 steps.Add(StepTextBox.Text);
                 StepTextBox.Clear();
-                RefreshStepsTextBox();
+                RefreshStepsTextBox(); // Refresh displayed steps
             }
             else
             {
@@ -81,6 +80,7 @@ namespace WpfApp2
             }
         }
 
+        // Event handler for adding a recipe
         private void AddRecipe_Click(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(RecipeNameTextBox.Text))
@@ -89,13 +89,16 @@ namespace WpfApp2
                 return;
             }
 
+            // Create a new Recipe object
             Recipe newRecipe = new Recipe(RecipeNameTextBox.Text);
 
+            // Add ingredients to the new recipe
             foreach (var ingredient in ingredients)
             {
                 newRecipe.AddIngredient(ingredient.Name, ingredient.Quantity, ingredient.Unit, ingredient.Calories, ingredient.FoodGroup);
             }
 
+            // Add steps to the new recipe
             foreach (var step in steps)
             {
                 newRecipe.AddStep(step);
@@ -103,15 +106,17 @@ namespace WpfApp2
 
             recipes.Add(newRecipe); // Add the new recipe to the recipes list
             MessageBox.Show("Recipe added successfully!", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-            this.Close();
+            this.Close(); // Close the window after adding the recipe
         }
 
+        // Event handler for canceling recipe addition
         private void Cancel_Click(object sender, RoutedEventArgs e)
         {
             // Close the window without saving changes
             this.Close();
         }
 
+        // Refresh the displayed steps in the StepsTextBox
         private void RefreshStepsTextBox()
         {
             StepsTextBox.Text = string.Join(Environment.NewLine, steps);
