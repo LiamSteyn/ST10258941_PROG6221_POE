@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34525.116
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ST10258941_PROG6221", "ST10258941_PROG6221A1\ST10258941_PROG6221.csproj", "{B5C82A15-0922-4E7E-94E1-3E72591B6B54}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ST10258941_PROG6221Tests", "ST10258941_PROG6221Tests\ST10258941_PROG6221Tests.csproj", "{73D7ECE0-1DD0-4BBC-B95E-F48E2CC232F3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApp2", "WpfApp2\WpfApp2.csproj", "{9F3820B8-981F-49E7-9E03-626C85302513}"
@@ -17,10 +15,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B5C82A15-0922-4E7E-94E1-3E72591B6B54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B5C82A15-0922-4E7E-94E1-3E72591B6B54}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B5C82A15-0922-4E7E-94E1-3E72591B6B54}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B5C82A15-0922-4E7E-94E1-3E72591B6B54}.Release|Any CPU.Build.0 = Release|Any CPU
 		{73D7ECE0-1DD0-4BBC-B95E-F48E2CC232F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{73D7ECE0-1DD0-4BBC-B95E-F48E2CC232F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73D7ECE0-1DD0-4BBC-B95E-F48E2CC232F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
