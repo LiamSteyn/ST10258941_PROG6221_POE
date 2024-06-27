@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using ST10258941_PROG6221_3;
 
@@ -14,11 +15,12 @@ namespace WpfApp2
         {
             InitializeComponent();
 
+
             recipes = new List<Recipe>(); // Initialize the recipes list
 
             // Display the DisplayRecipeWindow with the list of recipes
             DisplayRecipeWindow displayRecipeWindow = new DisplayRecipeWindow(recipes);
-            displayRecipeWindow.Show();
+            
         }
 
         // Event handler for Exit button click
@@ -40,11 +42,12 @@ namespace WpfApp2
         {
             if (recipes.Count > 0)
             {
-                Recipe currentRecipe = recipes[0]; // For example, select the first recipe in the list
+                // Convert recipes List to an array of Recipe objects
+                Recipe[] recipesArray = recipes.ToArray();
 
-                // Open ToolsWindow with the selected recipe
-                ToolsWindow toolsWindow = new ToolsWindow(currentRecipe);
-                toolsWindow.Show();
+                // Open ToolsWindow with the array of recipes
+                ToolsWindow toolsWindow = new ToolsWindow(recipesArray);
+                toolsWindow.ShowDialog();
             }
             else
             {
@@ -62,6 +65,9 @@ namespace WpfApp2
                 MessageBox.Show("No recipes to display.", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
                 return;
             }
+            
+            // Convert recipes List to Recipe[]
+            Recipe[] recipesArray = recipes.ToArray();
 
             // Open DisplayRecipeWindow to show all recipes
             var displayRecipeWindow = new DisplayRecipeWindow(recipes);

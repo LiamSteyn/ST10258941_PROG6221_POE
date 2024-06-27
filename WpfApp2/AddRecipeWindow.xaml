@@ -17,8 +17,16 @@
             <TextBox Name="UnitTextBox" Width="436"/>
             <TextBlock Text="Calories:" FontWeight="Bold"/>
             <TextBox Name="CaloriesTextBox" Width="436"/>
+            <!-- Food Group Selector -->
             <TextBlock Text="Food Group:" FontWeight="Bold"/>
-            <TextBox Name="FoodGroupTextBox" Width="437"/>
+            <ComboBox Name="FoodGroupComboBox" Width="436">
+                <ComboBoxItem Content="Grains"/>
+                <ComboBoxItem Content="Vegetables"/>
+                <ComboBoxItem Content="Fruits"/>
+                <ComboBoxItem Content="Proteins"/>
+                <ComboBoxItem Content="Dairy"/>
+            </ComboBox>
+
             <Button Content="Add Ingredient" Click="AddIngredient_Click" Width="200" Height="29" Margin="10"/>
             <TextBlock x:Name="StatusTextBlock" Foreground="Green" FontWeight="Bold"/>
             <TextBlock Text="Enter Step:" FontWeight="Bold"/>

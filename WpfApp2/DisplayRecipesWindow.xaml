@@ -10,32 +10,49 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </Window.Resources>
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0*"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <!-- Header -->
-        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="203,10,0,10" Grid.Column="1" Width="71">
+        <StackPanel Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" Margin="10">
             <TextBlock Text="Recipes" FontWeight="Bold" FontSize="20"/>
         </StackPanel>
         <!-- Recipe List -->
-        <ListView Grid.Row="1" x:Name="RecipesListView" Margin="7,10,10,10" SelectionMode="Single" 
+        <ListView Grid.Row="1" x:Name="RecipesListView" Margin="10,10,10,10" SelectionMode="Single" 
                   SelectedItem="{Binding SelectedRecipe, Mode=TwoWay}" HorizontalContentAlignment="Stretch"
-                  ItemsSource="{Binding Recipes}" Grid.Column="1"
-                  SelectionChanged="RecipesListView_SelectionChanged">
+                  ItemsSource="{Binding Recipes}" SelectionChanged="RecipesListView_SelectionChanged" 
+                  av:ItemsSource="{av:SampleData ItemCount=5}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Recipe Name" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="Recipe Name, Ingredients:" Width="200">
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Name}" FontWeight="Bold"/>
+                                    <ItemsControl ItemsSource="{Binding Ingredients}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel Orientation="Horizontal"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding Name}"/>
+                                                    <TextBlock Text=", "/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </StackPanel>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
                     <!-- Add other columns as needed -->
                 </GridView>
             </ListView.View>
         </ListView>
         <!-- No Recipe Selected Message -->
-        <TextBlock Grid.Row="1" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="16"
-                   Text="Select a recipe to view its details" Visibility="{Binding IsNoRecipeSelected, Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Column="1" Margin="124,0,0,0" Height="21" Width="228"/>
     </Grid>
 </Window>

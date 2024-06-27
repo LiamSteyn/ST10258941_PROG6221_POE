@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 using ST10258941_PROG6221_3;
 namespace WpfApp2
 {
@@ -27,7 +28,7 @@ namespace WpfApp2
                 string.IsNullOrWhiteSpace(QuantityTextBox.Text) ||
                 string.IsNullOrWhiteSpace(UnitTextBox.Text) ||
                 string.IsNullOrWhiteSpace(CaloriesTextBox.Text) ||
-                string.IsNullOrWhiteSpace(FoodGroupTextBox.Text))
+                FoodGroupComboBox.SelectedItem == null)
             {
                 MessageBox.Show("Please fill in all fields for the ingredient.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
@@ -41,13 +42,16 @@ namespace WpfApp2
                 return;
             }
 
+            // Get selected food group from ComboBox
+            string selectedFoodGroup = (FoodGroupComboBox.SelectedItem as ComboBoxItem)?.Content.ToString();
+
             // Create new Ingredient object
             Ingredient newIngredient = new Ingredient(
                 IngredientNameTextBox.Text,
                 quantity,
                 UnitTextBox.Text,
                 calories,
-                FoodGroupTextBox.Text
+                selectedFoodGroup
             );
 
             // Add ingredient to list
@@ -58,11 +62,12 @@ namespace WpfApp2
             QuantityTextBox.Clear();
             UnitTextBox.Clear();
             CaloriesTextBox.Clear();
-            FoodGroupTextBox.Clear();
+            FoodGroupComboBox.SelectedIndex = -1; // Clear selection in ComboBox
 
             // Update status message
             StatusTextBlock.Text = $"Ingredient '{newIngredient.Name}' added successfully!";
         }
+
 
         // Event handler for adding a step to the recipe
         private void AddStep_Click(object sender, RoutedEventArgs e)

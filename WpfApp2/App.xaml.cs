@@ -18,7 +18,6 @@ namespace WpfApp2
         {
             base.OnStartup(e);
             MainWindow mainWindow = new MainWindow();
-            mainWindow.Show();
         }
     }
 }
